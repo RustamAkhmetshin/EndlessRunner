@@ -1,6 +1,5 @@
 using Configs;
-using Gameplay;
-using Gameplay.Spawners;
+using Gameplay.Character;
 using UI;
 using UI.Windows;
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using CharacterController = Gameplay.Character.CharacterController;
 
 namespace Gameplay
 {

@@ -1,7 +1,6 @@
-using System;
-using System.Security.Cryptography;
+
 using Core;
-using Core.EventBus;
+using Gameplay.Character;
 using UnityEngine;
 
 namespace Gameplay

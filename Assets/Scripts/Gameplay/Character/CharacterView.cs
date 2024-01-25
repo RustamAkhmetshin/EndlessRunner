@@ -5,7 +5,7 @@ using Core;
 using Core.EventBus;
 using UnityEngine;
 
-namespace Gameplay
+namespace Gameplay.Character
 {
     public class CharacterView : MonoBehaviour
     {

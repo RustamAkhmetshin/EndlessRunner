@@ -1,4 +1,6 @@
 
+using Gameplay.Character;
+
 namespace Gameplay
 {
     public class Coin

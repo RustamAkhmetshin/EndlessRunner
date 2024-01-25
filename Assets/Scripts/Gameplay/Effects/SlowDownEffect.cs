@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using CharacterController = Gameplay.Character.CharacterController;
+
 
 namespace Gameplay.Effects
 {

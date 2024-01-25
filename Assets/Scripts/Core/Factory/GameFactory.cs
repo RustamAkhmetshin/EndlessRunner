@@ -1,5 +1,6 @@
 using Configs;
 using Gameplay;
+using Gameplay.Character;
 using Gameplay.Obstacle;
 using UnityEngine;
 

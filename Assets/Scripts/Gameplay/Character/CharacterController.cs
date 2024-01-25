@@ -1,10 +1,9 @@
-using System;
 using Configs.Character;
 using Core;
 using Core.EventBus;
-using UnityEngine;
+using Core.Helpers;
 
-namespace Gameplay
+namespace Gameplay.Character
 {
     //Character controller. Applying effects is done by delegating the logic to the effect class itself.
     
@@ -37,7 +36,7 @@ namespace Gameplay
         {
             _inputService.Update();
             _character.Update(deltaTime);
-            _view.UpdatePosition(_character.Position);
+            _view.UpdatePosition(_character.Position.ToUnityVector2());
         }
 
         public void StartRunning()

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Gameplay
+namespace Gameplay.Character
 {
     public static class CharacterAnimationStates
     {

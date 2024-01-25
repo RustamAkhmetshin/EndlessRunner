@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Configs.Character;
-using UnityEngine;
+using Core.Helpers;
 
-namespace Gameplay
+namespace Gameplay.Character
 {
     //Main character model. Controlled by a controller and sends data to the view.
     
@@ -17,7 +17,7 @@ namespace Gameplay
 
         public float Speed
         {
-            get { return _speed; }
+            get => _speed;
             set
             {
                 _speed = value;

@@ -1,4 +1,5 @@
 using System;
+using Gameplay.Character;
 using UnityEngine;
 
 namespace Gameplay.Obstacle

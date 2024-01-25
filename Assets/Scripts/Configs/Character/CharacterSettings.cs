@@ -8,7 +8,7 @@ namespace Configs.Character
     
     
     [CreateAssetMenu(fileName = "CharacterSettings", menuName = "ScriptableObjects/CharacterSettings", order = 1)]
-    public class CharacterSettings : ScriptableObject
+    public class CharacterSettings : ScriptableObject, ICharacterSettings
     {
         [SerializeField] private float originalSpeed;
         [SerializeField] private float jumpStrength;

@@ -4,12 +4,12 @@ namespace Core
 {
     public class Game
     {
-        public StateMachine stateMachine;
+        public GameStateMachine GameStateMachine;
         
         public Game(ICoroutineRunner coroutineRunner)
         {
             ISceneLoader sceneLoader = new SceneLoader(coroutineRunner);
-            stateMachine = new StateMachine(sceneLoader,coroutineRunner, Services.Instance);
+            GameStateMachine = new GameStateMachine(sceneLoader,coroutineRunner, Services.Instance);
         }
     }
 }

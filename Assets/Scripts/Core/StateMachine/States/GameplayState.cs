@@ -1,3 +1,4 @@
+using Gameplay.Effects;
 using Gameplay.Spawners;
 using UI;
 using UI.Windows;
@@ -7,17 +8,23 @@ namespace Core
 {
     public class GameplayState : IState
     {
-        private readonly StateMachine _stateMachine;
+        private readonly GameStateMachine _gameStateMachine;
         private readonly Services _services;
         private CoinSpawner _coinSpawner;
         private ObstacleSpawner _obstacleSpawner;
         
-        public GameplayState(StateMachine stateMachine, ICoroutineRunner coroutineRunner, Services services)
+        public GameplayState(GameStateMachine gameStateMachine, ICoroutineRunner coroutineRunner, Services services)
         {
-            _stateMachine = stateMachine;
+            _gameStateMachine = gameStateMachine;
             _services = services;
             
-            _coinSpawner = new CoinSpawner(services.GetService<IGameFactory>(), coroutineRunner);
+            IEffectsContainer effectsContainer = new EffectsContainer();
+            effectsContainer.AddEffect("SpeedUpEffect", new SpeedUpEffect());
+            effectsContainer.AddEffect("SlowDownEffect", new SlowDownEffect());
+            effectsContainer.AddEffect("FlyEffect", new FlyEffect(coroutineRunner));
+
+            
+            _coinSpawner = new CoinSpawner(services.GetService<IGameFactory>(), effectsContainer, coroutineRunner);
             _obstacleSpawner = new ObstacleSpawner(services.GetService<IGameFactory>(), coroutineRunner);
         }
         
@@ -30,16 +37,20 @@ namespace Core
 
         private void EnterGameOverState()
         {
-            _stateMachine.Enter<GameOverState>();
+            _gameStateMachine.Enter<GameOverState>();
         }
         
         private void LoadUI()
         {
-            GameplayUI gameplayUI = (GameplayUI) _services.GetService<IWindowService>().OpenWindow(WindowId.GameplayUI);
-            gameplayUI.SetButtonCallback(() =>
+            Window window = _services.GetService<IWindowService>().OpenWindow(WindowId.GameplayUI);
+
+            if (window is GameplayUI gameplayUI)
             {
-                _stateMachine.Enter<GamePauseState>();
-            });
+                gameplayUI.SetButtonCallback(() =>
+                {
+                    _gameStateMachine.Enter<GamePauseState>();
+                });
+            }
         }
 
         public void Exit()

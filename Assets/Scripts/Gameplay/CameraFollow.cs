@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace Gameplay
 {
+    //Camera component for following the character.
+    
+    //Компонент камеры для следования за персонажем.
+    
     public class CameraFollow : MonoBehaviour
     {
         public Transform followTarget;

@@ -21,10 +21,5 @@ namespace Gameplay
         {
             _effect?.Add(characterController);
         }
-
-        public void OnDestroy()
-        {
-            
-        }
     }
 }

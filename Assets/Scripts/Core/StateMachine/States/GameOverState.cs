@@ -6,13 +6,12 @@ namespace Core
 {
     public class GameOverState : IState
     {
-        private readonly StateMachine _stateMachine;
+        private readonly GameStateMachine _gameStateMachine;
         private readonly Services _services;
-        private GameoverWindow _gameoverWindow;
-
-        public GameOverState(StateMachine stateMachine, Services services)
+        
+        public GameOverState(GameStateMachine gameStateMachine, Services services)
         {
-            _stateMachine = stateMachine;
+            _gameStateMachine = gameStateMachine;
             _services = services;
         }
         
@@ -20,13 +19,17 @@ namespace Core
         public void Enter()
         {
             Time.timeScale = 0;
-            _gameoverWindow = (GameoverWindow) _services.GetService<IWindowService>().OpenWindow(WindowId.GameoverWindow);
-            _gameoverWindow.SetRetryButtonCallback(() => { _stateMachine.Enter<InitialState>(); });
-            _gameoverWindow.SetQuitButtonCallback(() =>
+            Window window = _services.GetService<IWindowService>().OpenWindow(WindowId.GameoverWindow);
+            
+            if (window is GameoverWindow gameoverWindow)
             {
-                //Cleanup
-                Application.Quit();
-            });
+                gameoverWindow.SetRetryButtonCallback(() => { _gameStateMachine.Enter<InitialState>(); });
+                gameoverWindow.SetQuitButtonCallback(() =>
+                {
+                    //Cleanup
+                    Application.Quit();
+                });
+            }
         }
 
         public void Exit()

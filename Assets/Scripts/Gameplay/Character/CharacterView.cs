@@ -41,7 +41,6 @@ namespace Gameplay.Character
         public void SetRun(float speed)
         {
             characterAnimator.PlayAnimation(CharacterAnimationStates.RunStateHash, speed);
-            
         }
 
         public void SetSlide()
@@ -54,7 +53,7 @@ namespace Gameplay.Character
             return _characterController;
         }
 
-        public void OnSpeedChanged(float newSpeed)
+        public void SetRunningAnimationSpeed(float newSpeed)
         {
             if (newSpeed > 0)
             {

@@ -2,6 +2,7 @@ using Configs.Character;
 using Core;
 using Core.EventBus;
 using Core.Helpers;
+using UnityEngine;
 
 namespace Gameplay.Character
 {
@@ -17,12 +18,13 @@ namespace Gameplay.Character
         private readonly IInputService _inputService;
         private readonly IEventBusService _eventBusService;
 
-        public CharacterController(CharacterView view, CharacterSettings characterSettings)
+        public CharacterController(CharacterView view, ICharacterSettings characterSettings)
         {
             _view = view;
 
             _character = new Character(characterSettings);
-            _character.OnSpeedChanged += OnSpeedChanged;
+            _character.SpeedChanged += SpeedChanged;
+            _character.Jump += _view.SetJump;
             
             _eventBusService = Services.Instance.GetService<IEventBusService>();
             _eventBusService.CreatePlayer(_view.transform);
@@ -41,14 +43,21 @@ namespace Gameplay.Character
 
         public void StartRunning()
         {
-            SetOriginalSpeed();
+            _character.SetOriginalSpeed();
+            _character.SetRunningState();
             _inputService.Enable();
+        }
+        
+        private void Jump()
+        {
+            _character.SetJumpState();
         }
         
         public void AddEffect(IEffect effect)
         {
+            _character.SetRunningState();
             _character.AddEffect(effect);
-            effect.StartEffect(this);
+            effect.ApplyEffect(this);
         }
 
         public void RemoveEffect(IEffect effect)
@@ -66,33 +75,21 @@ namespace Gameplay.Character
             return _view;
         }
 
+        private void SpeedChanged(float newSpeed)
+        {
+            _eventBusService.ChangePlayerSpeed(newSpeed);
+            
+            if(_character.IsGrounded())
+                _view.SetRunningAnimationSpeed(newSpeed);
+        }
+
         public void OnDestroy()
         {
             _inputService.OnJump -= Jump;
             _inputService.Disable();
             
-            _character.OnSpeedChanged -= OnSpeedChanged;
-            _character.OnDestroy();
-        }
-
-        private void OnSpeedChanged(float newSpeed)
-        {
-            _eventBusService.ChangePlayerSpeed(newSpeed);
-            _view.OnSpeedChanged(newSpeed);
-        }
-
-        private void SetOriginalSpeed()
-        {
-            _character.SetOriginalSpeed();
-        }
-        
-        private void Jump()
-        {
-            if (_character.IsJumping || _character.Position.y > 0)
-                return;
-            
-            _character.Jump();
-            _view.SetJump();
+            _character.SpeedChanged -= SpeedChanged;
+            _character.Jump -= _view.SetJump;
         }
     }
 }

@@ -7,15 +7,15 @@ namespace Core
 {
     public class PreGameplayState : IState
     {
-        private readonly StateMachine _stateMachine;
+        private readonly GameStateMachine _gameStateMachine;
         private readonly ISceneLoader _sceneLoader;
         private readonly Services _services;
 
         private CharacterView _characterView;
 
-        public PreGameplayState(StateMachine stateMachine, ISceneLoader sceneLoader, Services services)
+        public PreGameplayState(GameStateMachine gameStateMachine, ISceneLoader sceneLoader, Services services)
         {
-            _stateMachine = stateMachine;
+            _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _services = services;
         }
@@ -30,8 +30,12 @@ namespace Core
             LoadGameWorld();
             LoadCharacter();
             
-            StarterWindow starterWindow = (StarterWindow) _services.GetService<IWindowService>().OpenWindow(WindowId.StarterWindow);
-            starterWindow.SetButtonCallback(() => { _stateMachine.Enter<GameplayState>(); });
+            Window window = _services.GetService<IWindowService>().OpenWindow(WindowId.StarterWindow);
+
+            if (window is StarterWindow starterWindow)
+            {
+                starterWindow.SetButtonCallback(() => { _gameStateMachine.Enter<GameplayState>(); });
+            }
         }
         
         private void LoadGameWorld()

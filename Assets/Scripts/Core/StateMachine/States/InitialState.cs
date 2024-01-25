@@ -8,13 +8,13 @@ namespace Core
 {
     public class InitialState : IState
     {
-        private readonly StateMachine _stateMachine;
+        private readonly GameStateMachine _gameStateMachine;
         private readonly ISceneLoader _sceneLoader;
         private readonly Services _services;
         
-        public InitialState(StateMachine stateMachine, ISceneLoader sceneLoader, Services services)
+        public InitialState(GameStateMachine gameStateMachine, ISceneLoader sceneLoader, Services services)
         {
-            _stateMachine = stateMachine;
+            _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _services = services;
             RegisterServices();
@@ -32,11 +32,12 @@ namespace Core
             _services.RegisterService<IEventBusService>(new EventBusService());
             _services.RegisterService<IUIFactory>(new UIFactory());
             _services.RegisterService<IWindowService>(new WindowService(_services.GetService<IUIFactory>()));
+            _services.RegisterService<IConfigsLoader>(new ConfigsLoader());
         }
 
         private void LoadGameLevel()
         {
-            _stateMachine.Enter<PreGameplayState>();
+            _gameStateMachine.Enter<PreGameplayState>();
         }
 
         public void Exit()

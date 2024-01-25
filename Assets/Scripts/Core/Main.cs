@@ -9,12 +9,19 @@ namespace Core
     
     public class Main : MonoBehaviour, ICoroutineRunner
     {
+        public static Main Instance;
+        
         private Game _game;
         
         private void Awake()
         {
+            if (Instance != null)
+                Destroy(gameObject);
+
+            Instance = this;
+            
             _game = new Game(this);
-            _game.stateMachine.Enter<InitialState>();
+            _game.GameStateMachine.Enter<InitialState>();
             
             DontDestroyOnLoad(this);
         }

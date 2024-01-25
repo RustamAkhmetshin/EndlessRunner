@@ -1,6 +1,7 @@
 
 using Core;
 using Gameplay.Character;
+using Gameplay.Effects;
 using UnityEngine;
 
 namespace Gameplay
@@ -19,7 +20,7 @@ namespace Gameplay
 
         private void Start()
         {
-            _cameraTransform = Camera.main.transform;
+            if (Camera.main != null) _cameraTransform = Camera.main.transform;
         }
 
         private void Update()
@@ -30,7 +31,7 @@ namespace Gameplay
             }
         }
 
-        public void InitEffect(IEffect effect)
+        public void InitEffect(IColoredEffect effect)
         {
             _coinController.InitEffect(effect);
             SetColor(effect.GetColor());

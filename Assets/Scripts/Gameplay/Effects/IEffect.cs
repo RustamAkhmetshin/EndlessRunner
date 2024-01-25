@@ -9,9 +9,9 @@ namespace Gameplay
     
     public interface IEffect
     {
-        void Add(CharacterController characterController);
-        void Remove(CharacterController characterController);
-        void StartEffect(CharacterController characterController);
-        Color GetColor();
+        float Duration { get; }
+        void Add(CharacterController characterController); //Добавление эффекта на объект (перед использованием)
+        void RemoveEffect(CharacterController characterController); //Удаление эффекта
+        void ApplyEffect(CharacterController characterController); // Активация логики эффекта
     }
 }

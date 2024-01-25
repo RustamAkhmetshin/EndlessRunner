@@ -20,4 +20,11 @@ namespace Configs
         public const string CoinPrefabPath = "Gameplay/CoinPrefab";
         public const string ObstaclePrefabPath = "Gameplay/ObstaclePrefab";
     }
+
+    public static class ConfigsPath
+    {
+        public const string SpeedUpEffectSettingsPath = "Configs/Effects/SpeedUpEffectSettings";
+        public const string SlowDownEffectSettingsPath = "Configs/Effects/SlowDownEffectSettings";
+        public const string FlyEffectSettingsPath = "Configs/Effects/FlyEffectSettings";
+    }
 }

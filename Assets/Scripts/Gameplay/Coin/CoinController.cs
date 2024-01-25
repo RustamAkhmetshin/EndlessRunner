@@ -22,8 +22,6 @@ namespace Gameplay
         public void CollectCoin(CharacterController characterController)
         {
             _coin.Collect(characterController);
-            _coin.OnDestroy();
-
             Services.Instance.GetService<IGameFactory>().DisableCoin(_view);
         }
     }
